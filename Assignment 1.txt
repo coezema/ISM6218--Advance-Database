@@ -1,0 +1,43 @@
+CREATE TABLE Employee (
+    EmpID      smallint             NOT NULL, 
+    DOB  DATE            NOT NULL,
+    FirstName  VARCHAR(14)     NOT NULL,
+    LastName   VARCHAR(16)     NOT NULL,
+    SSN   VARCHAR(11)     NOT NULL,
+    PRIMARY KEY (EmpID)
+);
+CREATE TABLE Product (
+    ProdID      smallint         NOT NULL,
+    ProductName  VARCHAR(14)     NOT NULL,
+    ProductType   VARCHAR(16)     NOT NULL,
+    Cost   money NOT NULL, 
+    PRIMARY KEY (ProdID)
+);
+CREATE TABLE Project (
+    ProjID      smallint         NOT NULL,
+    ProjectName  VARCHAR(14)     NOT NULL,
+    Sponsor   VARCHAR(16)     NOT NULL,
+    Budget   money NOT NULL, 
+    PRIMARY KEY (ProjID)
+);
+CREATE TABLE Employee_Product (
+    EmpID		smallint		NOT NULL,
+	ProdID      smallint         NOT NULL,
+    FOREIGN KEY (EmpID) REFERENCES Employee (EmpID) ON DELETE CASCADE,
+    FOREIGN KEY (ProdID) REFERENCES Product (ProdID) ON DELETE CASCADE,
+    PRIMARY KEY (EmpID, ProdID)
+);
+CREATE TABLE Employee_Project (
+    EmpID		smallint		NOT NULL,
+	ProjID      smallint         NOT NULL,
+    FOREIGN KEY (EmpID) REFERENCES Employee (EmpID) ON DELETE CASCADE,
+    FOREIGN KEY (ProjID) REFERENCES Project (ProjID) ON DELETE CASCADE,
+    PRIMARY KEY (EmpID, ProjID)
+);
+CREATE TABLE Project_Product (
+    ProjID		smallint		NOT NULL,
+	ProdID      smallint         NOT NULL,
+    FOREIGN KEY (ProjID) REFERENCES Project (ProjID) ON DELETE CASCADE,
+    FOREIGN KEY (ProdID) REFERENCES Product (ProdID) ON DELETE CASCADE,
+    PRIMARY KEY (ProjID, ProdID)
+);
