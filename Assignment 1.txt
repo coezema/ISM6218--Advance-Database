@@ -1,3 +1,52 @@
+////////////////////////3RD NORMAL FORM/////////////////////////////////////////
+
+CREATE TABLE Employee (
+    EmpID      smallint             NOT NULL, 
+    DOB  DATE            NOT NULL,
+    FirstName  VARCHAR(14)     NOT NULL,
+    LastName   VARCHAR(16)     NOT NULL,
+    Email   VARCHAR(50)     NOT NULL,
+    PRIMARY KEY (EmpID)
+);
+CREATE TABLE Product (
+    ProdID      smallint         NOT NULL,
+    ProductName  VARCHAR(14)     NOT NULL,
+    ProductType   VARCHAR(16)     NOT NULL,
+    Cost   money NOT NULL, 
+    PRIMARY KEY (ProdID)
+);
+CREATE TABLE Project (
+    ProjID      smallint         NOT NULL,
+    ProjectName  VARCHAR(14)     NOT NULL,
+    Sponsor   VARCHAR(16)     NOT NULL,
+    Budget   money NOT NULL, 
+    PRIMARY KEY (ProjID)
+);
+CREATE TABLE Employee_Product (
+    EmpID		smallint		NOT NULL,
+	ProdID      smallint         NOT NULL,
+    FOREIGN KEY (EmpID) REFERENCES Employee (EmpID) ON DELETE CASCADE,
+    FOREIGN KEY (ProdID) REFERENCES Product (ProdID) ON DELETE CASCADE,
+    PRIMARY KEY (EmpID, ProdID)
+);
+CREATE TABLE Employee_Project (
+    EmpID		smallint		NOT NULL,
+	ProjID      smallint         NOT NULL,
+    FOREIGN KEY (EmpID) REFERENCES Employee (EmpID) ON DELETE CASCADE,
+    FOREIGN KEY (ProjID) REFERENCES Project (ProjID) ON DELETE CASCADE,
+    PRIMARY KEY (EmpID, ProjID)
+);
+CREATE TABLE Project_Product (
+    ProjID		smallint		NOT NULL,
+	ProdID      smallint         NOT NULL,
+    FOREIGN KEY (ProjID) REFERENCES Project (ProjID) ON DELETE CASCADE,
+    FOREIGN KEY (ProdID) REFERENCES Product (ProdID) ON DELETE CASCADE,
+    PRIMARY KEY (ProjID, ProdID)
+);
+
+///////////////////////////////////////////////////////////////////////
+//////////////5TH NORMAL FORM/////////////////////////////////////////
+
 CREATE TABLE Employee (
     EmpID      smallint             NOT NULL, 
     DOB  DATE            NOT NULL,
@@ -41,3 +90,140 @@ CREATE TABLE Project_Product (
     FOREIGN KEY (ProdID) REFERENCES Product (ProdID) ON DELETE CASCADE,
     PRIMARY KEY (ProjID, ProdID)
 );
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////6TH NORMAL FORM/////////////////////////////////////////
+
+
+CREATE TABLE Employee_FirstName (
+    EmpID      smallint     identity(101,1)  NOT NULL, 
+    FirstName  VARCHAR(14)     NOT NULL,
+    PRIMARY KEY (EmpID)
+);
+CREATE TABLE Employee_LastName (
+    EmpID      smallint        identity(101,1)  NOT NULL , 
+    LastName  VARCHAR(14)     NOT NULL,
+    PRIMARY KEY (EmpID)
+);
+CREATE TABLE Employee_DOB (
+    EmpID      smallint        identity(101,1)     NOT NULL, 
+    DOB  date     NOT NULL,
+    PRIMARY KEY (EmpID)
+);
+CREATE TABLE Employee_Email (
+    EmpID      smallint        identity(101,1)     NOT NULL, 
+    Email  VARCHAR(50)     NOT NULL,
+    PRIMARY KEY (EmpID)
+);
+CREATE TABLE Employee_Project (
+    EmpID      smallint  identity(101,1)           NOT NULL, 
+    ProjID  smallint      NOT NULL,
+    PRIMARY KEY (EmpID,ProjID)
+);
+CREATE TABLE Employee_Product (
+    EmpID      smallint   identity(101,1)         NOT NULL, 
+    ProdID  smallint      NOT NULL,
+    PRIMARY KEY (EmpID,ProdID)
+);
+CREATE TABLE Project_Name (
+    ProjID  smallint     identity(1001,10) NOT NULL,
+    ProjectName varchar(14) Not null,
+	PRIMARY KEY (ProjID)
+);
+CREATE TABLE Project_Budget (
+    ProjID  smallint     identity(1001,10) NOT NULL,
+    Budget money Not null,
+	PRIMARY KEY (ProjID)
+);
+CREATE TABLE Project_Sponsor (
+    ProjID  smallint     identity(1001,10) NOT NULL,
+    Sponsor varchar(14) Not null,
+	PRIMARY KEY (ProjID)
+);
+CREATE TABLE Project_Product (
+    ProjID  smallint     NOT NULL,
+    ProdID  smallint     NOT NULL,
+	PRIMARY KEY (ProjID,ProdID)
+);
+CREATE TABLE Product_Name (
+    ProdID  smallint     identity(10001,100) NOT NULL,
+    ProductName varchar(14) Not null,
+	PRIMARY KEY (ProdID)
+);
+CREATE TABLE Product_Type (
+    ProdID  smallint     identity(10001,100) NOT NULL,
+    ProductType varchar(14) Not null,
+	PRIMARY KEY (ProdID)
+);
+CREATE TABLE Product_Cost (
+    ProdID  smallint     identity(10001,100) NOT NULL,
+    Cost money Not null,
+	PRIMARY KEY (ProdID)
+);
+Insert State Lookup
+INSERT INTO State_Lookup([StateAbbrv], [StateName]) values ('AL', 'Alabama'),
+('AK', 'Alaska'),
+('AZ', 'Arizona'),
+('AR', 'Arkansas'),
+('CA', 'California'),
+('CO', 'Colorado'),
+('CT', 'Connecticut'),
+('DE', 'Delaware'),
+('DC', 'District of Columbia'),
+('FL', 'Florida'),
+('GA', 'Georgia'),
+('HI', 'Hawaii'),
+('ID', 'Idaho'),
+('IL', 'Illinois'),
+('IN', 'Indiana'),
+('IA', 'Iowa'),
+('KS', 'Kansas'),
+('KY', 'Kentucky'),
+('LA', 'Louisiana'),
+('ME', 'Maine'),
+('MD', 'Maryland'),
+('MA', 'Massachusetts'),
+('MI', 'Michigan'),
+('MN', 'Minnesota'),
+('MS', 'Mississippi'),
+('MO', 'Missouri'),
+('MT', 'Montana'),
+('NE', 'Nebraska'),
+('NV', 'Nevada'),
+('NH', 'New Hampshire'),
+('NJ', 'New Jersey'),
+('NM', 'New Mexico'),
+('NY', 'New York'),
+('NC', 'North Carolina'),
+('ND', 'North Dakota'),
+('OH', 'Ohio'),
+('OK', 'Oklahoma'),
+('OR', 'Oregon'),
+('PA', 'Pennsylvania'),
+('PR', 'Puerto Rico'),
+('RI', 'Rhode Island'),
+('SC', 'South Carolina'),
+('SD', 'South Dakota'),
+('TN', 'Tennessee'),
+('TX', 'Texas'),
+('UT', 'Utah'),
+('VT', 'Vermont'),
+('VA', 'Virginia'),
+('WA', 'Washington'),
+('WV', 'West Virginia'),
+('WI', 'Wisconsin'),
+('WY', 'Wyoming');
+
+INSERT Employee
+INSERT INTO Employee([EmpID],[FirstName],[LastName],[DOB],[StateID]) VALUES(101,'Buffy','Hayden','06/16/1969',15),(102,'Minerva','Mcbride','06/10/1991',9),(103,'Evan','Benjamin','01/04/1986',25),(104,'Lance','Moon','11/15/1995',9),(105,'Caleb','Willis','05/19/1972',22),(106,'Anjolie','Shepard','10/28/1970',14),(107,'Demetrius','Boyle','10/11/1983',26),(108,'Ronan','Cox','01/25/1980',14),(109,'Jeremy','Ellison','02/13/1974',2),(110,'Sheila','Ratliff','10/28/1974',14),(111,'Marcia','Hart','01/26/1993',26),(112,'Yoshio','Farley','03/10/1971',7),(113,'Libby','Gilbert','10/15/1980',36),(114,'Beatrice','Mcbride','08/30/1987',40),(115,'Theodore','Delaney','03/07/1993',43),(116,'Ulysses','Bell','07/05/1990',19),(117,'Abra','Bridges','10/05/1982',38),(118,'Ashton','Campos','11/05/1969',3),(119,'Joan','Burt','10/17/1978',11),(120,'Noelani','Jackson','12/08/1992',16),(121,'Driscoll','Hughes','03/02/1984',7),(122,'Trevor','Jacobs','10/12/1977',24),(123,'Ray','Norman','05/20/1970',25),(124,'Rafael','Webster','06/07/1984',45),(125,'Yen','Figueroa','07/24/1969',23),(126,'Hasad','Whitaker','06/13/1994',6),(127,'Kellie','Greer','04/09/1992',37),(128,'Alisa','Gaines','07/21/1990',47),(129,'Emmanuel','Dawson','09/13/1984',12),(130,'Alma','Edwards','05/01/1984',22),(131,'Ginger','Pugh','05/17/1978',17),(132,'Rahim','Rivers','08/25/1984',32),(133,'Bethany','Harding','12/14/1972',44),(134,'Adrian','Bruce','07/18/1979',7),(135,'Norman','Johnson','03/12/1976',30),(136,'Katelyn','Webster','10/24/1989',27),(137,'Daria','Mann','11/27/1994',21),(138,'Amal','Henson','03/02/1969',24),(139,'Hanna','Klein','06/20/1972',20),(140,'Elijah','Stanton','06/26/1986',42),(141,'Wang','Vinson','09/07/1995',32),(142,'Scarlet','Warner','04/13/1995',48),(143,'Joelle','Fields','12/23/1969',25),(144,'Quin','Winters','10/12/1996',44),(145,'Iris','Hendricks','08/07/1984',20),(146,'Felix','Perkins','05/16/1995',11),(147,'Elijah','Harvey','02/06/1976',12),(148,'Germane','Sanchez','07/02/1984',33),(149,'Candice','Howard','08/05/1994',43),(150,'Benedict','Mack','07/21/1989',31),(151,'Rigel','Schmidt','10/02/1982',5),(152,'Ainsley','Mathis','03/29/1972',8),(153,'Hakeem','Guy','02/24/1985',5),(154,'Carolyn','Finch','04/23/1972',20),(155,'Sylvia','Lucas','11/12/1977',44),(156,'Beau','Zamora','01/27/1984',5),(157,'Justin','Lowery','06/10/1974',49),(158,'Ulla','Vargas','11/05/1986',18),(159,'Alika','Cotton','01/11/1975',18),(160,'Wynter','Snyder','09/04/1987',6),(161,'Eleanor','Sampson','12/01/1973',19),(162,'Knox','Graham','04/20/1977',50),(163,'Denise','Whitley','06/06/1971',41),(164,'Daryl','Paul','05/07/1969',42),(165,'Marvin','Hardin','08/15/1986',49),(166,'Rhona','Stevens','10/20/1984',18),(167,'Finn','Gonzalez','07/03/1980',50),(168,'Iona','Clay','11/22/1986',32),(169,'Allistair','Carroll','09/24/1995',39),(170,'Maia','Burks','12/15/1975',6),(171,'Urielle','Schneider','07/07/1984',24),(172,'Christine','Brock','11/01/1979',18),(173,'Brendan','Barry','04/11/1978',39),(174,'Travis','Valenzuela','04/23/1992',16),(175,'Neil','Cunningham','02/27/1992',10),(176,'Alec','Mack','10/22/1975',14),(177,'Nero','James','11/10/1984',50),(178,'Chase','Norman','05/16/1979',5),(179,'Aphrodite','Gross','04/13/1991',7),(180,'Clayton','Hobbs','10/07/1981',3),(181,'Donna','Maynard','05/26/1985',43),(182,'Quin','Clements','10/04/1993',44),(183,'Blossom','Green','08/29/1974',42),(184,'Mira','Park','10/20/1978',7),(185,'Ainsley','Franks','12/13/1987',25),(186,'Castor','Combs','09/28/1994',10),(187,'Kasper','Baker','09/28/1975',45),(188,'Shay','Macias','11/04/1976',22),(189,'Ryan','Hopkins','09/05/1993',3),(190,'Cleo','Middleton','04/09/1983',40),(191,'Eric','Sullivan','03/14/1993',27),(192,'Kyra','Baldwin','11/05/1988',25),(193,'Angelica','Frazier','11/02/1981',22),(194,'Miranda','Arnold','08/18/1991',34),(195,'Keith','Short','04/10/1976',39),(196,'Katelyn','Drake','02/27/1972',6),(197,'Madeline','Cruz','06/02/1969',21),(198,'Charles','Fowler','07/03/1973',38),(199,'Fletcher','Barnes','03/08/1994',17),(200,'Adam','Mitchell','09/26/1994',17);
+
+INSERT Project
+INSERT INTO Project([ProjID],[ProjectName],[Sponsor],[Budget]) VALUES(9,'Id Mollis PC','Scott Hansen','$606,060'),(8,'Aliquet Inc.','Ronan Holman','$417,050'),(7,'Suspendisse Aliquet Company','Cullen Munoz','$986,990'),(2,'Aliquam Foundation','Charde Wolfe','$591,800'),(3,'Ac Arcu Nunc Limited','Keefe Black','$780550'),(6,'Nam Company','Idola Henson','$644,600'),(4,'Sociis Natoque Consulting','Lydia Hatfield','$679,500'),(5,'Ut LLP','Camden Foreman','$695,780'),(10,'Magna Associates','Beverly Vasquez','$623,810'),(1,'Elit Fermentum Consulting','Natalie Patrick','$682,990');
+
+Insert Product
+INSERT INTO Product([ProdID],[ProductName],[ProductType],[Cost]) VALUES(1,'Citrike',' Website','$6,450'),(2,'Digitel','Business Intelligence','$97,863'),(3,'YPree','Cloud Service','$46,128'),(4,'JLR','Application','$54,125'),(5,'Fise','Cloud Service','$107,141'),(6,'Maruti','Cloud Service','$462,022'),(7,'Smart Seat','Application','$212,350'),(8,'Vauxhall',' Website','$170,460'),(9,'Tataris','Application','$107,034'),(10,'Sazuki','Business Intelligence','$100,215');
+
+Insert Deliverable
+INSERT INTO Deliverable([ProdID],[EmpID],[ProjID]) VALUES(3,170,4),(2,125,10),(3,174,9),(5,140,9),(6,173,8),(4,160,8),(5,117,5),(7,194,7),(1,113,6),(3,134,4),(3,183,6),(5,174,5),(7,164,2),(8,154,10),(6,175,7),(1,120,8),(4,163,3),(4,182,2),(5,156,2),(4,168,8),(9,126,5),(7,159,6),(10,107,5),(9,171,4),(7,121,2),(5,131,10),(10,130,9),(5,163,3),(1,125,5),(1,116,9),(5,162,2),(2,111,8),(8,132,10),(9,110,7),(10,122,10),(4,176,2),(9,134,7),(1,177,1),(8,182,9),(9,110,3),(7,184,8),(8,168,1),(10,104,7),(5,140,8),(6,161,9),(3,117,3),(10,126,5),(2,168,3),(4,119,4),(3,106,9),(9,196,1),(7,105,10),(2,132,1),(9,166,2),(6,108,2),(5,149,7),(7,190,4),(3,172,2),(3,197,4),(8,191,7),(7,155,7),(7,145,9),(3,192,5),(2,113,2),(4,185,10),(4,148,8),(5,121,9),(8,169,5),(8,121,1),(6,132,3),(7,153,3),(6,169,8),(1,136,5),(7,105,4),(7,125,8),(9,167,1),(7,174,8),(10,101,8),(10,162,5),(4,183,4),(2,162,6),(1,141,3),(3,161,4),(3,198,9),(10,196,9),(6,130,8),(7,129,9),(6,159,9),(4,157,6),(7,179,2),(6,172,9),(8,104,1),(3,115,6),(8,157,8),(5,134,2),(7,102,3),(4,144,9),(9,132,10),(5,167,7),(6,121,4);
