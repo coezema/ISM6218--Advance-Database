@@ -98,48 +98,43 @@ CREATE TABLE Project_Product (
 
 
 CREATE TABLE Employee_FirstName (
-    EmpID      smallint     identity(101,1)  NOT NULL, 
-    FirstName  VARCHAR(14)     NOT NULL,
+    EmpID      smallint       NOT NULL, 
+    FirstName  VARCHAR(50)     NOT NULL,
     PRIMARY KEY (EmpID)
 );
 CREATE TABLE Employee_LastName (
-    EmpID      smallint        identity(101,1)  NOT NULL , 
-    LastName  VARCHAR(14)     NOT NULL,
+    EmpID      smallint       NOT NULL , 
+    LastName  VARCHAR(50)     NOT NULL,
     PRIMARY KEY (EmpID)
 );
 CREATE TABLE Employee_DOB (
-    EmpID      smallint        identity(101,1)     NOT NULL, 
+    EmpID      smallint       NOT NULL, 
     DOB  date     NOT NULL,
     PRIMARY KEY (EmpID)
 );
-CREATE TABLE Employee_Email (
-    EmpID      smallint        identity(101,1)     NOT NULL, 
-    Email  VARCHAR(50)     NOT NULL,
-    PRIMARY KEY (EmpID)
-);
 CREATE TABLE Employee_Project (
-    EmpID      smallint  identity(101,1)           NOT NULL, 
+    EmpID      smallint   NOT NULL, 
     ProjID  smallint      NOT NULL,
     PRIMARY KEY (EmpID,ProjID)
 );
 CREATE TABLE Employee_Product (
-    EmpID      smallint   identity(101,1)         NOT NULL, 
+    EmpID      smallint   NOT NULL, 
     ProdID  smallint      NOT NULL,
     PRIMARY KEY (EmpID,ProdID)
 );
 CREATE TABLE Project_Name (
-    ProjID  smallint     identity(1001,10) NOT NULL,
-    ProjectName varchar(14) Not null,
+    ProjID  smallint     NOT NULL,
+    ProjectName varchar(50) Not null,
 	PRIMARY KEY (ProjID)
 );
 CREATE TABLE Project_Budget (
-    ProjID  smallint     identity(1001,10) NOT NULL,
+    ProjID  smallint     NOT NULL,
     Budget money Not null,
 	PRIMARY KEY (ProjID)
 );
 CREATE TABLE Project_Sponsor (
-    ProjID  smallint     identity(1001,10) NOT NULL,
-    Sponsor varchar(14) Not null,
+    ProjID  smallint    NOT NULL,
+    Sponsor varchar(50) Not null,
 	PRIMARY KEY (ProjID)
 );
 CREATE TABLE Project_Product (
@@ -148,17 +143,17 @@ CREATE TABLE Project_Product (
 	PRIMARY KEY (ProjID,ProdID)
 );
 CREATE TABLE Product_Name (
-    ProdID  smallint     identity(10001,100) NOT NULL,
-    ProductName varchar(14) Not null,
+    ProdID  smallint     NOT NULL,
+    ProductName varchar(50) Not null,
 	PRIMARY KEY (ProdID)
 );
 CREATE TABLE Product_Type (
-    ProdID  smallint     identity(10001,100) NOT NULL,
-    ProductType varchar(14) Not null,
+    ProdID  smallint     NOT NULL,
+    ProductType varchar(50) Not null,
 	PRIMARY KEY (ProdID)
 );
 CREATE TABLE Product_Cost (
-    ProdID  smallint     identity(10001,100) NOT NULL,
+    ProdID  smallint     NOT NULL,
     Cost money Not null,
 	PRIMARY KEY (ProdID)
 );
