@@ -1,0 +1,39 @@
+CREATE SCHEMA HR;
+GO 
+CREATE SCHEMA Cust;
+GO
+CREATE SCHEMA Prod;
+GO
+CREATE TABLE HR.Employee (
+    EmpID      smallint  NOT NULL Identity(101,1), 
+    DOB  DATE            NOT NULL,
+    FirstName  VARCHAR(25)     NOT NULL,
+    LastName   VARCHAR(25)     NOT NULL,
+    PhoneNumber   NCHAR(11)     NOT NULL,
+	CONSTRAINT CHK_DOB CHECK (DOB>= '1963-01-01'),
+    PRIMARY KEY (EmpID)
+);
+CREATE TABLE Prod.Product (
+    PID		smallint  NOT NULL, 
+    Name	VARCHAR(14)     NOT NULL,
+	Type	VARCHAR(14)     NOT NULL Default 'Website',
+	PRIMARY KEY (PID)
+);
+CREATE TABLE Cust.Customer (
+    CustID		smallint  NOT NULL, 
+    FirstName	VARCHAR(25)     NOT NULL,
+	LastName	VARCHAR(25)     NOT NULL,
+	Email		VARCHAR(50)     NOT NULL,
+	Zip		NCHAR(5)	NOT NULL default 33620,
+	CONSTRAINT CHK_Zipcode CHECK (Zip like'[0-9][0-9][0-9][0-9][0-9]'),
+	PRIMARY KEY (CustID)
+);
+CREATE TABLE Employee_Product (
+    EmpID		smallint		NOT NULL,
+	ProdID      smallint         NOT NULL,
+	CustID      smallint         NOT NULL,
+    FOREIGN KEY (EmpID) REFERENCES HR.Employee (EmpID) ON DELETE CASCADE,
+    FOREIGN KEY (ProdID) REFERENCES Prod.Product (PID) ON DELETE CASCADE,
+    FOREIGN KEY (CustID) REFERENCES Cust.Customer (CustID) ON DELETE CASCADE,
+    PRIMARY KEY (EmpID, ProdID, CustID)
+);
