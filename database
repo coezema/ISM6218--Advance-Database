@@ -37,3 +37,6 @@ CREATE TABLE Employee_Product (
     FOREIGN KEY (CustID) REFERENCES Cust.Customer (CustID) ON DELETE CASCADE,
     PRIMARY KEY (EmpID, ProdID, CustID)
 );
+
+CREATE default zipdefault AS 33620;   
+
