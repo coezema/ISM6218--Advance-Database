@@ -40,3 +40,21 @@ CREATE TABLE Employee_Product (
 
 CREATE default zipdefault AS 33620;   
 
+CREATE TRIGGER HR.trig_employeeaudit
+   ON  HR.Employee 
+   AFTER INSERT,UPDATE
+AS 
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for trigger here
+	Insert into dbo.EmployeeAudit(EmpID, EmpFName, EmpLName, Salary, ModifiedDate, Operation)
+	select u.EmpID, u.FirstName, u.LastName, u.Salary, GETDATE(),'Upd'
+	from dbo.EmployeeAudit
+	join inserted u on dbo.EmployeeAudit.EmpID=u.EmpID
+
+END
+GO
+
