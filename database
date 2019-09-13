@@ -10,7 +10,11 @@ CREATE TABLE HR.Employee (
     FirstName  VARCHAR(25)     NOT NULL,
     LastName   VARCHAR(25)     NOT NULL,
     PhoneNumber   NCHAR(11)     NOT NULL,
-	CONSTRAINT CHK_DOB CHECK (DOB>= '1963-01-01'),
+    Zip		NCHAR(5)	NOT NULL default 33620,
+    Email		VARCHAR(50)     NOT NULL,
+    Salary	NUMERIC(10,2) NOT NULL,
+    CONSTRAINT CHK_DOB CHECK (DOB>= '1963-01-01'),
+    CONSTRAINT CHK_Zipcode CHECK (Zip like'[0-9][0-9][0-9][0-9][0-9]'),
     PRIMARY KEY (EmpID)
 );
 CREATE TABLE Prod.Product (
@@ -19,15 +23,7 @@ CREATE TABLE Prod.Product (
 	Type	VARCHAR(14)     NOT NULL Default 'Website',
 	PRIMARY KEY (PID)
 );
-CREATE TABLE Cust.Customer (
-    CustID		smallint  NOT NULL, 
-    FirstName	VARCHAR(25)     NOT NULL,
-	LastName	VARCHAR(25)     NOT NULL,
-	Email		VARCHAR(50)     NOT NULL,
-	Zip		NCHAR(5)	NOT NULL default 33620,
-	CONSTRAINT CHK_Zipcode CHECK (Zip like'[0-9][0-9][0-9][0-9][0-9]'),
-	PRIMARY KEY (CustID)
-);
+
 CREATE TABLE Employee_Product (
     EmpID		smallint		NOT NULL,
 	ProdID      smallint         NOT NULL,
@@ -40,7 +36,7 @@ CREATE TABLE Employee_Product (
 
 CREATE default zipdefault AS 33620;   
 
-CREATE TRIGGER HR.trig_employeeaudit
+CREATE TRIGGER HR.trig_salaryaudit
    ON  HR.Employee 
    AFTER INSERT,UPDATE
 AS 
@@ -58,3 +54,37 @@ BEGIN
 END
 GO
 
+--DATA INSERT
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('04-4309525', 'Mateo', 'Rulton', '9/21/1959', '(989) 2250111', '$71749.48', 'mrulton0@blog.com', 33610);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('68-1219369', 'Donnie', 'Itzkovich', '12/11/1996', '(491) 6812626', '$52024.14', 'ditzkovich1@amazonaws.com', 33617);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('38-2510974', 'Reiko', 'Ambrois', '4/12/1965', '(604) 6589289', '$224165.07', 'rambrois2@usatoday.com', 70310);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('42-7240346', 'Janice', 'Schofield', '8/28/1960', '(309) 4259087', '$94979.25', 'jschofield3@stanford.edu', 33655);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('81-6666904', 'Shoshana', 'Ortsmann', '12/5/1993', '(565) 9394013', '$62759.71', 'sortsmann4@homestead.com', 33610);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('59-1320849', 'Fina', 'Jouannot', '5/20/1971', '(409) 9197647', '$77269.03', 'fjouannot5@squarespace.com', 33620);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('35-5516328', 'Tony', 'Benoist', '3/19/1982', '(714) 1504962', '$227863.25', 'tbenoist6@etsy.com', 33610);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('31-8008924', 'Bernardine', 'Heskey', '8/14/1979', '(705) 7844285', '$224685.32', 'bheskey7@desdev.cn', 33610);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('78-6401480', 'Eleen', 'Frankom', '9/19/1966', '(679) 4509146', '$191169.68', 'efrankom8@g.co', 33686);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('14-2298310', 'Caitrin', 'Yeo', '3/18/1971', '(981) 6517210', '$52466.60', 'cyeo9@craigslist.org', 33610);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('33-8713341', 'Hadrian', 'Ricciardelli', '11/16/1989', '(389) 1029209', '$157109.01', 'hricciardellia@amazon.de', 33623);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('87-5569283', 'Hayes', 'Cocozza', '12/2/1990', '(312) 6819389', '$183880.39', 'hcocozzab@soundcloud.com', 70301);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('97-4495371', 'Cesar', 'Hebborne', '10/23/1962', '(690) 4089445', '$270446.28', 'chebbornec@shutterfly.com', 33620);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('31-6690004', 'Reidar', 'Danielski', '1/25/1967', '(835) 4373691', '$131808.15', 'rdanielskid@google.de', 33645);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('16-0590523', 'Carl', 'Smalcombe', '7/12/1963', '(127) 2682900', '$157088.47', 'csmalcombee@yahoo.co.jp', 33610);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('21-2528919', 'Megan', 'Tumbridge', '9/29/1950', '(270) 1041907', '$274642.38', 'mtumbridgef@aboutads.info', 33610);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('47-4777166', 'Sheeree', 'O'' Bee', '5/14/1965', '(506) 4959899', '$46632.58', 'sobeeg@stumbleupon.com', 33610);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('00-3706539', 'Stacy', 'Grigorushkin', '12/29/1962', '(795) 6865359', '$179995.81', 'sgrigorushkinh@mit.edu', 33617);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('42-9849406', 'Herb', 'Rigts', '5/8/1975', '(325) 8918046', '$248840.60', 'hrigtsi@wordpress.com', 70310);
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zipcode) values ('73-3923686', 'Shanna', 'Toplin', '11/6/1991', '(279) 9129865', '$168169.93', 'stoplinj@sitemeter.com', 33617);
+
+--SalesData
+
+insert into Prod.Product (PID, Name, Type, Price) values (1, 'Dodge', 'Ram Van 3500', '$33586.11');
+insert into Prod.Product (PID, Name, Type, Price) values (2, 'Volkswagen', 'GTI', '$13008.47');
+insert into Prod.Product (PID, Name, Type, Price) values (3, 'Mazda', 'Miata MX-5', '$26587.72');
+insert into Prod.Product (PID, Name, Type, Price) values (4, 'Ford', 'Escort', '$6186.06');
+insert into Prod.Product (PID, Name, Type, Price) values (5, 'Dodge', 'Grand Caravan', '$6468.75');
+insert into Prod.Product (PID, Name, Type, Price) values (6, 'GMC', 'Envoy XL', '$6870.11');
+insert into Prod.Product (PID, Name, Type, Price) values (7, 'Honda', 'Odyssey', '$31061.19');
+insert into Prod.Product (PID, Name, Type, Price) values (8, 'Lamborghini', 'Countach', '$34704.63');
+insert into Prod.Product (PID, Name, Type, Price) values (9, 'Mazda', 'MX-5', '$33466.07');
+insert into Prod.Product (PID, Name, Type, Price) values (10, 'Ford', 'Thunderbird', '$21855.75');
