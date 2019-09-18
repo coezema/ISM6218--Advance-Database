@@ -1119,41 +1119,44 @@ insert into Employee_Product (EmpID, ProdID, Quantity) values ('31-8008924', 2, 
 
 --USER STORY
 --AS store Mgr James, I want to compare each employee's salary  to revenue generated
-Select concat(e.FirstName, e.LastName) as 'Employee', e.Salary as 'Yearly Salary', sum(Price*Quantity) as 'Revenue Generated'
-from HR.Employee e
-left join Employee_Product ep on e.EmpID=ep.EmpID
-	 join Prod.Product p on ep.ProdID=p.PID
-group by e.FirstName,e.LastName, Salary,Price,Quantity
-order by [Revenue Generated] desc
 
-
---USER STORY
---AS store Mgr James, I want to compare employee's salary  to revenue generated
-select ep.EmpID as 'Employee ID',concat(e.FirstName,' ',e.LastName) as 'Employeee', Salary, ISNULL((sum(Quantity*Price)),0)as 'Revenue Generated', (ISNULL((sum(Quantity*Price)),0)-Salary)as 'Profit-Loss'
+select ep.EmpID as 'Employee ID',concat(e.FirstName,' ',e.LastName) as 'Employeee', Salary
+			,ISNULL((sum(Quantity*Price)),0)as 'Revenue Generated', (ISNULL((sum(Quantity*Price)),0)-Salary)as 'Profit-Loss'
 from Employee_Product ep 
 left join HR.Employee e on ep.EmpID=e.EmpID 
 left join Prod.Product p on ProdID = PID
 group by ep.EmpID,LastName, FirstName, Salary
 order by [Profit-Loss] desc
 
---Logic check expand query to include employees that have yet to sell any product
-select isNull(ep.EmpID, 'No ID')as 'Employee ID',concat(e.FirstName,' ',e.LastName) as 'Employeee', Salary, ISNULL((sum(Quantity*Price)),0)as 'Revenue Generated'
+--As the sales manager Joan, I want to see all employees that have yet to sell any product so that they can be re-trained
+select isNull(e.EmpID, 'No ID')as 'Employee ID',concat(e.FirstName,' ',e.LastName) as 'Employeee', Salary, Quantity
+from HR.Employee e 
+Full outer join Employee_Product ep on e.EmpID=ep.EmpID
+order by Quantity asc
+
+--Logic Check
+insert into HR.Employee (EmpId, FirstName, LastName, DOB, PhoneNumber, Salary, Email, Zip) values ('04-4309815', 'Test', 'Johnny', '9/21/1997', '(989) 2450171', '$51749.48', 'jtest@blog.com', 33620);
+select isNull(e.EmpID, 'No ID')as 'Employee ID',concat(e.FirstName,' ',e.LastName) as 'Employeee', Salary, Quantity
+from HR.Employee e 
+Full outer join Employee_Product ep on e.EmpID=ep.EmpID
+order by Quantity asc
+
+--View avg commision earned by top 5 employee
+
+select top 5 ep.EmpID as 'Employee ID',concat(e.FirstName,' ',e.LastName) as 'Employeee', Salary
+			,cast(ISNULL((avg(Quantity*Price)*.23),0)as numeric(18,2))as 'Avg Commission Earned'
 from Employee_Product ep 
 right join HR.Employee e on ep.EmpID=e.EmpID 
 left join Prod.Product p on ProdID = PID
 group by ep.EmpID,LastName, FirstName, Salary
-order by [Revenue Generated] desc
-
---As store owner Jackie, I want to see the cars that are not selling so that I can stop restocking
-select *
-from Prod.Product p 
-full outer join Employee_Product ep on PID = ProdID
-order by Quantity, Price asc
+order by [Avg Commission Earned] desc
 
 
-
---logic check removes the car that is not selling at all "Logic check"
-select *
-from Prod.Product p
-join Employee_Product ep  on PID = ProdID
-order by Quantity, Price asc
+--logic check removed top 5
+select ep.EmpID as 'Employee ID',concat(e.FirstName,' ',e.LastName) as 'Employeee', Salary
+			,cast(ISNULL((avg(Quantity*Price)*.23),0)as numeric(18,2))as 'Avg Commission Earned'
+from Employee_Product ep 
+right join HR.Employee e on ep.EmpID=e.EmpID 
+left join Prod.Product p on ProdID = PID
+group by ep.EmpID,LastName, FirstName, Salary
+order by [Avg Commission Earned] desc
