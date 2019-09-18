@@ -1127,7 +1127,33 @@ group by e.FirstName,e.LastName, Salary,Price,Quantity
 order by [Revenue Generated] desc
 
 
---As store owner Jackie, I want to see each employee's total revenue and commission earned
+--USER STORY
+--AS store Mgr James, I want to compare employee's salary  to revenue generated
+select ep.EmpID as 'Employee ID',concat(e.FirstName,' ',e.LastName) as 'Employeee', Salary, ISNULL((sum(Quantity*Price)),0)as 'Revenue Generated', (ISNULL((sum(Quantity*Price)),0)-Salary)as 'Profit-Loss'
+from Employee_Product ep 
+left join HR.Employee e on ep.EmpID=e.EmpID 
+left join Prod.Product p on ProdID = PID
+group by ep.EmpID,LastName, FirstName, Salary
+order by [Profit-Loss] desc
+
+--Logic check expand query to include employees that have yet to sell any product
+select isNull(ep.EmpID, 'No ID')as 'Employee ID',concat(e.FirstName,' ',e.LastName) as 'Employeee', Salary, ISNULL((sum(Quantity*Price)),0)as 'Revenue Generated'
+from Employee_Product ep 
+right join HR.Employee e on ep.EmpID=e.EmpID 
+left join Prod.Product p on ProdID = PID
+group by ep.EmpID,LastName, FirstName, Salary
+order by [Revenue Generated] desc
+
+--As store owner Jackie, I want to see the cars that are not selling so that I can stop restocking
+select *
+from Prod.Product p 
+full outer join Employee_Product ep on PID = ProdID
+order by Quantity, Price asc
 
 
--- As the inventory clerk Ashley, I want to see the All Products and quantity Sold 
+
+--logic check removes the car that is not selling at all "Logic check"
+select *
+from Prod.Product p
+join Employee_Product ep  on PID = ProdID
+order by Quantity, Price asc
