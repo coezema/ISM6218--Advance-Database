@@ -1,0 +1,27 @@
+--Total cost per Order
+Select cast(so.order_date as date) as 'Date'
+,so.order_id 'Order ID'
+,e.Name 'Employee'
+--, avg(so.quantity_sold) as 'Quantity'
+--, p.ProductName as 'Product Name'
+,format((sum((so.quantity_sold*p.pricePerUnit))),'c') as 'Subtotal'
+, format((sum((so.quantity_sold*p.pricePerUnit)*p.taxPercent)),'c') as 'Tax'
+, format((sum((so.quantity_sold*p.pricePerUnit)+((so.quantity_sold*p.pricePerUnit)*p.taxPercent))),'c') 'Total'
+from Sales.SalesOrder as so 
+join Prod.Product as p on so.product_id = p.ProdID
+join Emp.Employee e on e.EmpID =so.Employee_id
+group by so.order_id, so.order_date,Name
+order by Date, order_id
+
+
+--Average of Total and Tax per order
+Select cast(so.order_date as date) as 'Date'
+,so.order_id 'Order ID'
+,e.Name 'Employee'
+, format((avg((so.quantity_sold*p.pricePerUnit)+((so.quantity_sold*p.pricePerUnit)*p.taxPercent))),'c') 'Average Price'
+, format((avg((so.quantity_sold*p.pricePerUnit)*p.taxPercent)),'c') as ' Average Tax'
+from Sales.SalesOrder as so 
+join Prod.Product as p on so.product_id = p.ProdID
+join Emp.Employee e on e.EmpID =so.Employee_id
+group by so.order_id, so.order_date,Name
+order by Date, order_id
