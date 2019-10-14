@@ -1,0 +1,18 @@
+DECLARE @sql nvarchar(max), @columnList varchar(75), @classAvg numeric(5,2)
+DECLARE @coursePop int
+DECLARE @status varchar(255)
+
+SET @course = 10004
+SET @classAvg = (SELECT avg(percentage) from Course.CourseGrade WHERE CourseNo = @course)
+SET @coursePop = (SELECT count(StudentNo) from Course.CourseGrade WHERE CourseNo = @course)
+SET @columnList = 'c.CourseNo,ci.Name,'	
+	
+	
+IF ((@classAvg) < 70.00)  SET @status =  '''Students find this course challenging'''
+ELSE SET @status = '''Difficulty Level is appropriate'''
+
+SET @sql =	'SELECT ' + @columnList + cast(@classAvg as varchar(255))+'as Class'+','+ @status+' Course_Status'+
+					' FROM Course.CourseGrade c join Course.CourseInfo ci 
+					  on c.CourseNo = ci.CourseNo
+					  where c.CourseNo = @course
+					  group by c.CourseNo, ci.Name'
